@@ -11,7 +11,7 @@ parser.add_argument('-d', type=json.loads)
 args = parser.parse_args()
 kwargs = args.d
 
-def set_all_parameters(g, pg, fb_var, n_train, radius, seed, init_dist, train_method, activation='tanh'):
+def set_all_parameters(g, pg, fb_var, alpha, sigma, var_smooth, n_train, radius, seed, init_dist, train_method, activation='tanh'):
     params = dict()
     
     net_params = dict()
@@ -33,7 +33,7 @@ def set_all_parameters(g, pg, fb_var, n_train, radius, seed, init_dist, train_me
     t_intervals['fixate_on_postdelay'], t_intervals['fixate_off_postdelay'] = 5, 0
     t_intervals['cue_on'], t_intervals['cue_off'] = 5, 0
     t_intervals['delay_max'] = 10
-    t_intervals['response'] = 5
+    t_intervals['response'] = 0.2
     task_params['time_intervals'] = t_intervals
     task_params['radius'] = radius
     params['task'] = task_params
@@ -45,14 +45,14 @@ def set_all_parameters(g, pg, fb_var, n_train, radius, seed, init_dist, train_me
     train_params['init_dist'] = init_dist
     train_params['activation'] = activation
     if train_method == 'PG':
-        train_params['alpha'] = 8
-        train_params['sigma2'] = 10
+        train_params['alpha'] = alpha
+        train_params['sigma2'] = sigma
         train_params['max_grad'] = 0.05
-        train_params['tau_H'] = 25000
-        train_params['tau_phi'] = 35000
+        train_params['tau_H'] = 2500
+        train_params['tau_phi'] = 3500
         train_params['tau_alpha'] = 9
-        train_params['tau_sigma'] = 23
-        train_params['var_smooth'] = 1500
+        train_params['tau_sigma'] = 24
+        train_params['var_smooth'] = var_smooth
     params['train'] = train_params
     
     other_params = dict()
